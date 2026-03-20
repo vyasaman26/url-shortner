@@ -5,7 +5,7 @@ const urlRoute = require("./routes/url");
 const URL = require("./models/url");
 const app = express();
 
-const PORT = 8001;
+const PORT = 8000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
