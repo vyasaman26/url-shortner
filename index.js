@@ -1,5 +1,5 @@
 const express = require("express");
-const connectDB = require("./connect");
+const connectDB = require("./config/connect");
 
 const urlRoute = require("./routes/url");
 const URL = require("./models/url");
