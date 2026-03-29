@@ -1,7 +1,6 @@
 const URL = require("../models/url");
 const { nanoid } = require("nanoid");
 
-// 🔥 Create short URL
 const handleGenerateNewShortUrl = async (req, res) => {
   const body = req.body;
 
@@ -17,12 +16,9 @@ const handleGenerateNewShortUrl = async (req, res) => {
     visitHistory: [],
   });
 
-  return res.render('home',{
-    id:shortId
-  })
+  return res.redirect("/");
 };
 
-// 🔥 Redirect
 const redirectToTheOriginalUrl = async (req, res) => {
   const shortId = req.params.shortId;
 
@@ -31,7 +27,7 @@ const redirectToTheOriginalUrl = async (req, res) => {
   const entry = await URL.findOneAndUpdate(
     { shortId },
     { $push: { visitHistory: { timestamp: Date.now() } } },
-    { returnDocument: "after" }
+    { returnDocument: "after" },
   );
 
   if (!entry) {
@@ -40,7 +36,6 @@ const redirectToTheOriginalUrl = async (req, res) => {
 
   return res.redirect(entry.redirectUrl);
 };
-
 
 const getAnalytics = async (req, res) => {
   const shortId = req.params.shortId;
@@ -56,15 +51,8 @@ const getAnalytics = async (req, res) => {
   });
 };
 
-// 🔥 SSR Home
-const getUrls = async (req, res) => {
-  const allUrls = await URL.find({});
-  return res.render("home", { urls: allUrls });
-};
-
 module.exports = {
   handleGenerateNewShortUrl,
   redirectToTheOriginalUrl,
   getAnalytics,
-  getUrls,
 };
